@@ -233,7 +233,7 @@ angular.module('bahmni.ot')
                     template: "views/moveAppointment.html",
                     closeByDocument: false,
                     controller: "moveSurgicalAppointmentController",
-                    className: "ngdialog-theme-default ng-dialog-adt-popUp ot-dialog",
+                    className: "ngdialog-theme-default ng-dialog-adt-popUp",
                     showClose: true,
                     data: {
                         surgicalBlock: $scope.surgicalBlockSelected,
@@ -247,7 +247,7 @@ angular.module('bahmni.ot')
                     template: "views/addActualTimeDialog.html",
                     closeByDocument: false,
                     controller: "surgicalAppointmentActualTimeController",
-                    className: 'ngdialog-theme-default ng-dialog-adt-popUp ot-dialog',
+                    className: 'ngdialog-theme-default ng-dialog-adt-popUp',
                     showClose: true,
                     data: {
                         surgicalBlock: $scope.surgicalBlockSelected,
@@ -261,7 +261,7 @@ angular.module('bahmni.ot')
                     template: "views/cancelAppointment.html",
                     closeByDocument: false,
                     controller: "calendarViewCancelAppointmentController",
-                    className: 'ngdialog-theme-default ng-dialog-adt-popUp ot-dialog',
+                    className: 'ngdialog-theme-default ng-dialog-adt-popUp',
                     showClose: true,
                     data: {
                         surgicalBlock: $scope.surgicalBlockSelected,
@@ -274,8 +274,8 @@ angular.module('bahmni.ot')
                 ngDialog.open({
                     template: "views/cancelSurgicalBlock.html",
                     closeByDocument: false,
-                    controller: "cancelSurgicalBlockController",
-                    className: 'ngdialog-theme-default ng-dialog-adt-popUp ot-dialog',
+                    controller: "cancelSurgicalBlockPopUpController",
+                    className: 'ngdialog-theme-default ng-dialog-adt-popUp',
                     showClose: true,
                     data: {
                         surgicalBlock: $scope.surgicalBlockSelected,

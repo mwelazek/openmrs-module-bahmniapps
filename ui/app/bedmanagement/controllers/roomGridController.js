@@ -13,12 +13,6 @@ angular.module('bahmni.ipd')
                         bed.bedTagMaps[0].bedTag.color = tagConfig.color;
                     }
                 });
-                setDefaultTagColor(bed);
-            };
-            var setDefaultTagColor = function (bed) {
-                if (angular.isDefined(bed.bedTagMaps[0]) && bed.bedTagMaps[0].bedTag.color === undefined) {
-                    bed.bedTagMaps[0].bedTag.color = "#D3D3D3";
-                }
             };
 
             $scope.onSelectBed = function (bed) {

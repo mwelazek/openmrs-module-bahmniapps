@@ -8,8 +8,17 @@ angular.module('bahmni.appointments')
                 var popUpScope = $rootScope.$new();
                 var dialog;
                 var scope = config.scope;
+                scope.patientList = scope.appointments.map(function (appt) {
+                    return appt.patient;
+                });
+
+                scope.patientAppointmentMap = scope.appointments.reduce(function (result, appt) {
+                    result[appt.patient.uuid] = appt;
+                    return result;
+                }, {});
+
                 popUpScope.scope = scope;
-                popUpScope.appointment = scope.appointments.length === 1 ? scope.appointments[0] : undefined;
+                popUpScope.patient = scope.patientList.length === 1 ? scope.patientList[0] : undefined;
                 popUpScope.manageAppointmentPrivilege = Bahmni.Appointments.Constants.privilegeManageAppointments;
                 popUpScope.allowedActions = appService.getAppDescriptor().getConfigValue('allowedActions') || [];
                 popUpScope.allowedActionsByStatus = appService.getAppDescriptor().getConfigValue('allowedActionsByStatus') || {};
@@ -85,18 +94,6 @@ angular.module('bahmni.appointments')
                     }
                     var allowedActions = popUpScope.allowedActionsByStatus.hasOwnProperty(appointment.status) ? popUpScope.allowedActionsByStatus[appointment.status] : [];
                     return _.includes(allowedActions, action);
-                };
-
-                popUpScope.getAppointmentProviderNames = function (appointment) {
-                    if (appointment.providers) {
-                        var providerNames = appointment.providers.filter(function (p) {
-                            return p.response !== Bahmni.Appointments.Constants.providerResponses.CANCELLED;
-                        }).map(function (p) {
-                            return p.name;
-                        }).join(', ');
-                        return providerNames;
-                    }
-                    return '';
                 };
 
                 dialog = ngDialog.open({

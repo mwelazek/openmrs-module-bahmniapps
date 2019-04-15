@@ -28,6 +28,7 @@ angular.module('bahmni.registration').factory('initialization',
             };
 
             var initApp = function () {
+				debugger;
                 return appService.initApp('registration', {'app': true, 'extension': true });
             };
 

@@ -29,7 +29,33 @@ angular.module('bahmni.registration')
             };
             return patientServiceStrategy.search(config);
         };
-
+        var searchHIE = function (query, identifier, nationalId, gender, addressFieldName, addressFieldValue, customAttributeValue,
+                               offset, customAttributeFields, programAttributeFieldName, programAttributeFieldValue, addressSearchResultsConfig,
+                               patientSearchResultsConfig, filterOnAllIdentifiers) {
+            debugger;
+            var config = {
+                params: {
+                    q: query,
+                    identifier: identifier,
+                    nationalId: nationalId,
+                    gender: gender,
+                    s: "byIdOrNameOrVillage",
+                    addressFieldName: addressFieldName,
+                    addressFieldValue: addressFieldValue,
+                    customAttribute: customAttributeValue,
+                    startIndex: offset || 0,
+                    patientAttributes: customAttributeFields,
+                    programAttributeFieldName: programAttributeFieldName,
+                    programAttributeFieldValue: programAttributeFieldValue,
+                    addressSearchResultsConfig: addressSearchResultsConfig,
+                    patientSearchResultsConfig: patientSearchResultsConfig,
+                    loginLocationUuid: sessionService.getLoginLocationUuid(),
+                    filterOnAllIdentifiers: filterOnAllIdentifiers
+                },
+                withCredentials: true
+            };
+            return patientServiceStrategy.searchHIE(config);
+        };
         var searchByIdentifier = function (identifier) {
             return $http.get(Bahmni.Common.Constants.bahmniSearchUrl + "/patient", {
                 method: "GET",
@@ -41,6 +67,16 @@ angular.module('bahmni.registration')
             });
         };
 
+        var searchByIdentifier = function (identifier) {
+            return $http.get(Bahmni.Common.Constants.bahmniSearchUrl + "/patient", {
+                method: "GET",
+                params: {
+                    identifier: identifier,
+                    loginLocationUuid: sessionService.getLoginLocationUuid()
+                },
+                withCredentials: true
+            });
+        };
         var searchByNameOrIdentifier = function (query, limit) {
             return $http.get(Bahmni.Common.Constants.bahmniSearchUrl + "/patient", {
                 method: "GET",
@@ -66,6 +102,13 @@ angular.module('bahmni.registration')
             return patientServiceStrategy.update(patient, openMRSPatient, $rootScope.patientConfiguration.attributeTypes);
         };
 
+        var importPatient = function(patient){
+            var config = {
+                withCredentials: true
+            };
+            return patientServiceStrategy.importPatient(patient, config);
+        };
+
         var updateImage = function (uuid, image) {
             var url = baseOpenMRSRESTURL + "/personimage/";
             var data = {
@@ -81,9 +124,11 @@ angular.module('bahmni.registration')
 
         return {
             search: search,
+            searchHIE: searchHIE,
             searchByIdentifier: searchByIdentifier,
             create: create,
             update: update,
+            importPatient: importPatient,
             get: get,
             updateImage: updateImage,
             searchByNameOrIdentifier: searchByNameOrIdentifier

@@ -75,7 +75,9 @@ angular.module('bahmni.common.domain')
 
             this.create = function (encounter) {
                 encounter = this.buildEncounter(encounter);
-
+                console.log("!!!!!!!!!!THIS IS THE ENCOUNTER OBJECT SENT TO THE SERVER");
+                console.log(encounter);
+                console.log("THIS IS THE ENCOUNTER OBJECT SENT TO THE SERVER!!!!!!!!!!!");
                 return $http.post(Bahmni.Common.Constants.bahmniEncounterUrl, encounter, {
                     withCredentials: true
                 });

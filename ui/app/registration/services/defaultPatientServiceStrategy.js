@@ -7,6 +7,7 @@ angular.module('bahmni.registration')
 
         var search = function (config) {
             var defer = $q.defer();
+			debugger;
             var patientSearchUrl = Bahmni.Common.Constants.bahmniSearchUrl + "/patient";
             if (config && config.params.identifier) {
                 patientSearchUrl = Bahmni.Common.Constants.bahmniSearchUrl + "/patient/lucene";
@@ -15,6 +16,39 @@ angular.module('bahmni.registration')
                 defer.resolve(result);
             };
             $http.get(patientSearchUrl, config).success(onResults)
+                .error(function (error) {
+                    defer.reject(error);
+                });
+            return defer.promise;
+        };
+        var searchHIE = function (config) {
+            var defer = $q.defer();
+            var patientSearchUrl = Bahmni.Common.Constants.bahmniSearchUrl + "/mpipatient";
+            if (config && config.params.identifier) {
+                patientSearchUrl = Bahmni.Common.Constants.bahmniSearchUrl + "/mpipatient/exact";
+            }
+            var onResults = function (result) {
+                defer.resolve(result);
+            };
+            debugger;
+            $http.get(patientSearchUrl, config).success(onResults)
+                .error(function (error) {
+                    defer.reject(error);
+                });
+            return defer.promise;
+        };
+
+        var importPatient = function(patient, config){
+            debugger;
+            var defer = $q.defer();
+            var importPatientUrl = Bahmni.Common.Constants.bahmniSearchUrl + "/mpipatient" + "?patientEcid=" + patient.identifier;
+
+            var onResults = function (result) {
+                defer.resolve(result);
+            };
+            
+            debugger;
+            $http.post(importPatientUrl, config).success(onResults)
                 .error(function (error) {
                     defer.reject(error);
                 });
@@ -73,9 +107,11 @@ angular.module('bahmni.registration')
 
         return {
             search: search,
+            searchHIE: searchHIE,
             get: getByUuid,
             create: create,
             update: update,
+            importPatient: importPatient,
             generateIdentifier: generateIdentifier
         };
     }]);

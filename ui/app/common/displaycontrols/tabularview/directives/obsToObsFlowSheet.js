@@ -23,7 +23,7 @@ angular.module('bahmni.common.displaycontrol.obsVsObsFlowSheet').directive('obsT
                 });
             };
 
-            var removeEmptyRecords = function (records) {
+            const removeEmptyRecords = function (records) {
                 records.headers = _.filter(records.headers, function (header) {
                     return !(_.every(records.rows, function (record) {
                         return _.isEmpty(record.columns[header.name]);
@@ -133,10 +133,6 @@ angular.module('bahmni.common.displaycontrol.obsVsObsFlowSheet').directive('obsT
 
             $scope.isMonthAvailable = function () {
                 return $scope.obsTable.rows[0].columns['Month'] != null;
-            };
-
-            $scope.hasPDFAsValue = function (data) {
-                return data.value ? data.value.indexOf('.pdf') > 0 : false;
             };
 
             spinner.forPromise(init(), element);
